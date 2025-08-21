@@ -62,25 +62,18 @@
             font-size: 16px;
             margin: 10px 5px;
         }
-        .btn:hover {
-            background-color: #2980b9;
-        }
-        .btn-clear {
-            background-color: #e74c3c;
-        }
-        .btn-clear:hover {
-            background-color: #c0392b;
-        }
+        .btn:hover { background-color: #2980b9; }
+        .btn-clear { background-color: #e74c3c; }
+        .btn-clear:hover { background-color: #c0392b; }
+        .btn-pdf { background-color: #e67e22; }
+        .btn-pdf:hover { background-color: #d35400; }
         .result {
             background-color: #ecf0f1;
             padding: 20px;
             border-radius: 5px;
             margin-top: 20px;
         }
-        .result h3 {
-            color: #2c3e50;
-            margin-top: 0;
-        }
+        .result h3 { color: #2c3e50; margin-top: 0; }
         .total {
             font-size: 24px;
             font-weight: bold;
@@ -91,9 +84,7 @@
             background-color: #d5f4e6;
             border-radius: 5px;
         }
-        .entries {
-            margin-top: 20px;
-        }
+        .entries { margin-top: 20px; }
         .entry {
             background-color: #f8f9fa;
             padding: 15px;
@@ -104,9 +95,7 @@
             justify-content: space-between;
             align-items: center;
         }
-        .entry-info {
-            flex: 1;
-        }
+        .entry-info { flex: 1; }
         .entry-value {
             font-weight: bold;
             color: #27ae60;
@@ -121,9 +110,7 @@
             cursor: pointer;
             margin-left: 10px;
         }
-        .delete-btn:hover {
-            background-color: #c0392b;
-        }
+        .delete-btn:hover { background-color: #c0392b; }
         .excel-formula {
             background-color: #f8f9fa;
             border: 1px solid #dee2e6;
@@ -132,10 +119,7 @@
             margin-top: 20px;
             font-family: 'Courier New', monospace;
         }
-        .excel-formula h4 {
-            margin-top: 0;
-            color: #495057;
-        }
+        .excel-formula h4 { margin-top: 0; color: #495057; }
         .formula-code {
             background-color: #e9ecef;
             padding: 10px;
@@ -143,17 +127,94 @@
             margin: 10px 0;
             font-weight: bold;
         }
+        .print-header {
+            display: none;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 15px;
+        }
+        .print-info {
+            display: none;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        @media print {
+            .btn, .delete-btn, .time-input, .input-group, .excel-formula { display: none !important; }
+            h1 { display: none !important; }
+            body {
+                background-color: white !important;
+                font-size: 14px;
+                line-height: 1.4;
+            }
+            .container {
+                box-shadow: none !important;
+                padding: 30px !important;
+                max-width: 100% !important;
+            }
+            .result { background-color: white !important; border: none !important; padding: 0 !important; }
+            .result h3 { display: none !important; }
+            .entry {
+                background-color: white !important;
+                border: 1px solid #333 !important;
+                margin-bottom: 15px !important;
+                padding: 15px !important;
+                page-break-inside: avoid;
+                border-radius: 0 !important;
+            }
+            .entry-info { margin-bottom: 10px; }
+            .entry-info strong { font-size: 16px; color: #000; }
+            .entry-value {
+                font-size: 18px !important;
+                color: #000 !important;
+                text-align: right;
+                border-top: 1px solid #ddd;
+                padding-top: 10px;
+                margin-top: 10px;
+            }
+            .total {
+                background-color: #f8f8f8 !important;
+                color: #000 !important;
+                border: 3px solid #333 !important;
+                margin-top: 30px !important;
+                padding: 20px !important;
+                font-size: 22px !important;
+                text-align: center;
+            }
+            .print-header {
+                display: block !important;
+                margin-bottom: 40px !important;
+                text-align: center;
+            }
+            .print-header h2 {
+                font-size: 24px;
+                margin: 0 0 20px 0;
+                color: #000;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+            }
+            .print-info {
+                display: block !important;
+                text-align: center;
+                margin: 20px 0 30px 0;
+                padding: 15px;
+                border: 1px solid #333;
+                background-color: #f9f9f9;
+            }
+            .print-info p { margin: 5px 0; font-weight: bold; }
+            #entradas { margin: 30px 0; }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>📊 Calculadora de Horas Extras</h1>
-        
+
         <div class="input-group">
             <label for="valorHora">Valor da Hora (R$):</label>
             <input type="number" id="valorHora" placeholder="89.32" step="0.01" value="89.32">
         </div>
-        
+
         <div class="input-group">
             <label>Adicionar Horas Extras:</label>
             <div class="time-input">
@@ -163,21 +224,29 @@
                 <span>minutos</span>
             </div>
         </div>
-        
+
         <div class="input-group">
             <label for="descricao">Descrição (opcional):</label>
             <input type="text" id="descricao" placeholder="Ex: Horas extras do dia 15/07">
         </div>
-        
-        <button class="btn" onclick="adicionarHoras()">➕ Adicionar Horas</button>
-        <button class="btn btn-clear" onclick="limparTudo()">🗑️ Limpar Tudo</button>
-        
+
+        <button class="btn" type="button" onclick="adicionarHoras()">➕ Adicionar Horas</button>
+        <button class="btn btn-clear" type="button" onclick="limparTudo()">🗑️ Limpar Tudo</button>
+        <button class="btn btn-pdf" type="button" onclick="imprimirSimples()">📄 Gerar PDF</button>
+
         <div class="result" id="resultado">
+            <div class="print-header">
+                <h2>RELATÓRIO DE HORAS EXTRAS</h2>
+                <div class="print-info">
+                    <p><strong>Data do Relatório:</strong> <span id="dataRelatorio"></span></p>
+                    <p><strong>Valor da Hora:</strong> R$ <span id="valorHoraRelatorio"></span></p>
+                </div>
+            </div>
             <h3>📋 Resumo das Horas Extras</h3>
             <div id="entradas"></div>
             <div class="total" id="total">Total: R$ 0,00</div>
         </div>
-        
+
         <div class="excel-formula">
             <h4>📝 Fórmulas para Excel:</h4>
             <p><strong>Para calcular valor de horas e minutos:</strong></p>
@@ -185,7 +254,7 @@
                 =((A2*60)+B2)/60*C2
             </div>
             <p>Onde: A2 = horas, B2 = minutos, C2 = valor da hora</p>
-            
+
             <p><strong>Para converter tempo em formato HH:MM:</strong></p>
             <div class="formula-code">
                 =HORA(A2)*60+MINUTO(A2)
@@ -197,95 +266,117 @@
     <script>
         let entradas = [];
         let totalGeral = 0;
-        
+
         function adicionarHoras() {
             const valorHora = parseFloat(document.getElementById('valorHora').value) || 0;
             const horas = parseInt(document.getElementById('horas').value) || 0;
             const minutos = parseInt(document.getElementById('minutos').value) || 0;
             const descricao = document.getElementById('descricao').value || '';
-            
+
             if (valorHora <= 0) {
                 alert('Por favor, insira um valor de hora válido!');
                 return;
             }
-            
             if (horas === 0 && minutos === 0) {
                 alert('Por favor, insira pelo menos algumas horas ou minutos!');
                 return;
             }
-            
-            // Calcular valor total desta entrada
+
             const totalMinutos = (horas * 60) + minutos;
             const valorTotal = (totalMinutos / 60) * valorHora;
-            
-            // Adicionar à lista
+
             const entrada = {
                 id: Date.now(),
-                horas: horas,
-                minutos: minutos,
-                valorHora: valorHora,
-                valorTotal: valorTotal,
-                descricao: descricao,
-                totalMinutos: totalMinutos
+                horas,
+                minutos,
+                valorHora,
+                valorTotal,
+                descricao,
+                totalMinutos
             };
-            
+
             entradas.push(entrada);
             atualizarInterface();
-            
-            // Limpar campos
+
             document.getElementById('horas').value = '';
             document.getElementById('minutos').value = '';
             document.getElementById('descricao').value = '';
         }
-        
+
         function removerEntrada(id) {
             entradas = entradas.filter(entrada => entrada.id !== id);
             atualizarInterface();
         }
-        
+
         function atualizarInterface() {
             const container = document.getElementById('entradas');
             const totalElement = document.getElementById('total');
-            
+
             container.innerHTML = '';
             totalGeral = 0;
-            
+
             entradas.forEach(entrada => {
                 totalGeral += entrada.valorTotal;
-                
+
                 const div = document.createElement('div');
                 div.className = 'entry';
                 div.innerHTML = `
                     <div class="entry-info">
                         <strong>${entrada.horas}h ${entrada.minutos}min</strong>
-                        ${entrada.descricao ? `<br><em>${entrada.descricao}</em>` : ''}
-                        <br><small>R$ ${entrada.valorHora.toFixed(2)}/hora × ${(entrada.totalMinutos/60).toFixed(2)}h</small>
+                        ${entrada.descricao ? `<br><em style="color: #666;">${entrada.descricao}</em>` : ''}
+                        <br><small style="color: #666;">R$ ${entrada.valorHora.toFixed(2)}/hora × ${(entrada.totalMinutos/60).toFixed(2)}h</small>
                     </div>
                     <div class="entry-value">
                         R$ ${entrada.valorTotal.toFixed(2)}
-                        <button class="delete-btn" onclick="removerEntrada(${entrada.id})">❌</button>
+                        <button class="delete-btn" type="button" onclick="removerEntrada(${entrada.id})">❌</button>
                     </div>
                 `;
                 container.appendChild(div);
             });
-            
+
             totalElement.textContent = `Total: R$ ${totalGeral.toFixed(2)}`;
         }
-        
+
+        function imprimirSimples() {
+            if (entradas.length === 0) {
+                alert('Adicione pelo menos uma entrada antes de gerar o PDF!');
+                return;
+            }
+
+            // Atualiza dados do cabeçalho do relatório
+            const agora = new Date();
+            const dataElement  = document.getElementById('dataRelatorio');
+            const valorElement = document.getElementById('valorHoraRelatorio');
+
+            if (dataElement)  dataElement.textContent  = agora.toLocaleDateString('pt-BR');
+            if (valorElement) valorElement.textContent = document.getElementById('valorHora').value;
+
+            // Força reflow para garantir que o DOM esteja pronto antes do print
+            document.getElementById('resultado').offsetHeight;
+
+            // Chama a impressão de forma síncrona (mantém o gesto do usuário)
+            try {
+                window.print();
+            } catch (error) {
+                console.error('Erro ao imprimir:', error);
+                alert('Não foi possível abrir a impressão automaticamente. Use Ctrl+P (Windows) ou ⌘+P (Mac).');
+            }
+        }
+
         function limparTudo() {
             if (confirm('Tem certeza que deseja limpar todas as entradas?')) {
                 entradas = [];
                 atualizarInterface();
             }
         }
-        
+
         // Permitir adicionar com Enter
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 adicionarHoras();
             }
         });
-        
+
         // Inicializar
         atualizarInterface();
     </script>
